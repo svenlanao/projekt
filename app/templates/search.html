@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Autoren suchen</title>
+</head>
+<body>
+    <h1>Autoren suchen</h1>
+    <form action="{{ url_for('main_routes.suchen') }}" method="post">
+        <label for="name">Name des Autors:</label>
+        <input type="text" id="name" name="name" required>
+        <button type="submit">Suchen</button>
+    </form>
+    <hr>
+    <ul>
+    {% for autor in autoren %}
+        <li>{{ autor.name }} - {{ autor.nationalitat }}</li>
+    {% endfor %}
+    </ul>
+</body>
+</html>

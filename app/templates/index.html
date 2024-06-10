@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Liste der Autoren</title>
+</head>
+<body>
+    <h1>Liste der Autoren</h1>
+    <ul>
+    {% for autor in autoren %}
+        <li>
+            <strong>Name:</strong> {{ autor.name }}<br>
+            <strong>Nationalität:</strong> {{ autor.nationalitat }}<br>
+        </li>
+    {% endfor %}
+    </ul>
+    <a href="{{ url_for('main_routes.suchen') }}">Autoren suchen</a>
+</body>
+</html>
