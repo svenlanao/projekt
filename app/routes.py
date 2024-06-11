@@ -17,3 +17,4 @@ def suchen():
         autoren = Autor.query.all()
     return render_template('buscar.html', autoren=autoren)
 
+
