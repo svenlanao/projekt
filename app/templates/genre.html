@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+
+{% block title %}Genre{% endblock %}
+
+{% block body %}
+<h1>Genre</h1>
+<ul>
+    {% for gen in genre %}
+    <li>{{ gen.genre }}</li>
+    {% endfor %}
+</ul>
+<a href="{{ url_for('main_routes.home') }}">Back to home page</a>
+{% endblock %}

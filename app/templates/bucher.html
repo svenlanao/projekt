@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+
+{% block title %}Bucher{% endblock %}
+
+{% block body %}
+<h1>Bucher</h1>
+<ul>
+    {% for buch in bucher %}
+    <li>{{ buch.titel }}</li>
+    {% endfor %}
+</ul>
+<a href="{{ url_for('main_routes.home') }}">Back to home page</a>
+{% endblock %}

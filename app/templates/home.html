@@ -1,0 +1,16 @@
+{% extends 'layout.html' %}
+
+{% block titel %} Home page {% endblock %}
+
+{% block body %}
+<header>
+    <h1>Select a page</h1>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('main_routes.autoren') }}">Autoren</a></li>
+            <li><a href="{{ url_for('main_routes.bucher') }}">Bucher</a></li>
+            <li><a href="{{ url_for('main_routes.genre') }}">Genre</a></li>
+        </ul>
+    </nav>
+</header>
+{% endblock %}

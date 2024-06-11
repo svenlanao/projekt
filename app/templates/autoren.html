@@ -1,0 +1,13 @@
+{% extends 'layout.html' %}
+
+{% block title %}Autoren{% endblock %}
+
+{% block body %}
+<h1>Autores</h1>
+<ul>
+    {% for autor in autoren %}
+    <li>{{ autor.name }}</li>
+    {% endfor %}
+</ul>
+<a href="{{ url_for('main_routes.home') }}">Back to home page</a>
+{% endblock %}

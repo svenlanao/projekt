@@ -25,3 +25,11 @@ class Buch(db.Model):
 
     def __repr__(self):
         return f'<Autor {self.titel}>'
+    
+class Genre(db.Model):
+    __tablename__='tbl_genre'
+    genre_id=db.Column(db.SmallInteger, primary_key=True)
+    genre=db.Column(db.String(25))
+    
+    def __repr__(self):
+        return f'<Genre {self.genre}>'
