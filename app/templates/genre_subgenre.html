@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+
+{% block title %}Genres und Subgenres{% endblock %}
+
+{% block body %}
+<h1>Genres und Subgenres</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Genres</th>
+            <th>Subgenres</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for genre in genres %}
+        <tr>
+            <td>{{ genre.genre }}</td>
+            <td>
+                <ul>
+                    {% for subgen in genre.subgenres %}
+                    <li>{{ subgen.subgenre }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ url_for('main_routes.home') }}">Back to home page</a>
+{% endblock %}

@@ -4,10 +4,30 @@
 
 {% block body %}
 <h1>Bucher</h1>
-<ul>
-    {% for buch in bucher %}
-    <li>{{ buch.titel }}</li>
-    {% endfor %}
-</ul>
+<table>
+    <thead>
+        <tr>
+            <th>Titel</th>
+            <th>ISBN</th>
+            <th>Subgenre</th>
+            <th>Verlag</th>
+            <th>Veröffentlichungs datum</th>
+            <th>Preis</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for buch in bucher %}
+        <tr>
+            <td>{{ buch.titel }}</td>
+            <td>{{ buch.isbn }}</td>
+            <td>{{ buch.subgenre.subgenre }}</td>
+            <td>{{ buch.verlag }}</td>
+            <td>{{ buch.veroffentlichungsdatum }}</td>
+            <td>{{ buch.preis }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
 <a href="{{ url_for('main_routes.home') }}">Back to home page</a>
 {% endblock %}

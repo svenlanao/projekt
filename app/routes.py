@@ -21,10 +21,10 @@ def bucher():
     return render_template('/bucher.html', bucher=bucher)
 
 #Genre
-@main_routes.route('/genre')
-def genre():
-    genre = Genre.query.all()
-    return render_template('/genre.html', genre=genre)
+@main_routes.route('/genres')
+def genre_subgenre():
+    genres = Genre.query.all()
+    return render_template('/genre_subgenre.html', genres=genres)
 
 #
 @main_routes.route('/suchen', methods=['GET', 'POST'])
