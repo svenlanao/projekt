@@ -18,13 +18,13 @@ def autoren():
 @main_routes.route('/bucher')
 def bucher():
     bucher = Buch.query.all()
-    return render_template('/bucher.html', bucher=bucher)
+    return render_template('bucher.html', bucher=bucher)
 
 #Genre
 @main_routes.route('/genres')
 def genre_subgenre():
     genres = Genre.query.all()
-    return render_template('/genre_subgenre.html', genres=genres)
+    return render_template('genre_subgenre.html', genres=genres)
 
 #
 @main_routes.route('/suchen', methods=['GET', 'POST'])

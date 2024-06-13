@@ -9,6 +9,7 @@
         <tr>
             <th>Titel</th>
             <th>ISBN</th>
+            <th>Genre</th>
             <th>Subgenre</th>
             <th>Verlag</th>
             <th>Veröffentlichungs datum</th>
@@ -20,6 +21,7 @@
         <tr>
             <td>{{ buch.titel }}</td>
             <td>{{ buch.isbn }}</td>
+            <td>{{ buch.subgenre.parent_genre.genre }}</td>
             <td>{{ buch.subgenre.subgenre }}</td>
             <td>{{ buch.verlag }}</td>
             <td>{{ buch.veroffentlichungsdatum }}</td>
