@@ -26,13 +26,5 @@ def genre_subgenre():
     genres = Genre.query.all()
     return render_template('genre_subgenre.html', genres=genres)
 
-#
-@main_routes.route('/suchen', methods=['GET', 'POST'])
-def suchen():
-    if request.method == 'POST':
-        name = request.form.get('name')
-        autoren = Autor.query.filter(Autor.name.ilike(f'%{name}%')).all()
-    else:
-        autoren = Autor.query.all()
-    return render_template('buscar.html', autoren=autoren)
+
 
