@@ -4,51 +4,95 @@
 
 {% block body %}
 <h1>Bucher</h1>
-<form action="{{ url_for('main_routes.bucher') }}" method="GET">
-    <label for="order">Nach Preis sortieren</label>
-    <select name="order" id="order">
-        <option value="">Standard</option>
-        <option value="asc">Aufsteigend</option>
-        <option value="desc">Absteigend</option>
-    </select>
+<div>
+    <form action="{{ url_for('main_routes.bucher') }}" method="GET">
+        <label for="order">Nach Preis sortieren</label>
+        <select name="order" id="order">
+            <option value="">Standard</option>
+            <option value="asc" {% if order == 'asc' %}selected{% endif %}>Aufsteigend</option>
+            <option value="desc" {% if order == 'desc' %}selected{% endif %}>Absteigend</option>
+        </select>
+        <button type="submit">Filtern</button>
+    </form>
+</div>
 
+<form action="{{ url_for('main_routes.bucher') }}" method="GET">
     <label for="subgenre">Nach Subgenre filtern</label>
     <select name="subgenre" id="subgenre">
         <option value="">Alle</option>
         {% set subgenres = bucher|map(attribute='subgenre.subgenre')|list|unique %}
         {% for subgenre in subgenres %}
-        <option value="{{ subgenre }}">{{ subgenre }}</option>
+        <option value="{{ subgenre }}" {% if request.args.get('subgenre') == subgenre %}selected{% endif %}>{{ subgenre }}</option>
         {% endfor %}
     </select>
     <button type="submit">Filtern</button>
 </form>
 
+<form action="{{ url_for('main_routes.mehrfache_addieren') }}" id="rechner-form" method="POST">
+   <table>
+        <thead>
+            <tr>
+                <th>Titel</th>
+                <th>ISBN</th>
+                <th>Genre</th>
+                <th>Subgenre</th>
+                <th>Verlag</th>
+                <th>Veröffentlichungs datum</th>
+                <th>Preis</th>
+                <th>Zum Rechner hinzufügen</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for buch in bucher %}
+            <tr>
+                <td>{{ buch.titel }}</td>
+                <td>{{ buch.isbn }}</td>
+                <td>{{ buch.subgenre.parent_genre.genre }}</td>
+                <td>{{ buch.subgenre.subgenre }}</td>
+                <td>{{ buch.verlag }}</td>
+                <td>{{ buch.veroffentlichungsdatum }}</td>
+                <td>{{ buch.preis }}</td>
+                <td><input type="checkbox" name="selected_books" value="{{ buch.buch_id }}"></td>
+            </tr>
+            {% endfor %}
+        </tbody>  
+    </table>    
+    <button type="submit">Zur Rechner hinzufügen</button>  
+</form>                
+
+<h2>Rechner</h2>
 <table>
     <thead>
         <tr>
-            <th>Titel</th>
-            <th>ISBN</th>
-            <th>Genre</th>
-            <th>Subgenre</th>
-            <th>Verlag</th>
-            <th>Veröffentlichungs datum</th>
+            <th>Buch Titel</th>
+            <th>Menge</th>
             <th>Preis</th>
+            <th>Gesamt</th>
+            <th>Aktion</th>
         </tr>
     </thead>
     <tbody>
-        {% for buch in bucher %}
+        {% for book_id, book_data in rechner.items() %}
         <tr>
-            <td>{{ buch.titel }}</td>
-            <td>{{ buch.isbn }}</td>
-            <td>{{ buch.subgenre.parent_genre.genre }}</td>
-            <td>{{ buch.subgenre.subgenre }}</td>
-            <td>{{ buch.verlag }}</td>
-            <td>{{ buch.veroffentlichungsdatum }}</td>
-            <td>{{ buch.preis }}</td>
+            <td>{{ book_data['book_titel'] }}</td>
+            <td>{{ book_data['quantity'] }}</td>
+            <td>{{ book_data['price'] }}</td>
+            <td>{{ book_data['quantity'] * book_data['price'] }}</td>
+            <td>
+                <form action="{{ url_for('main_routes.enfernen', book_id=book_id) }}" method="post">
+                    <button type="submit">Entfernen</button>
+                </form>
+                <form action="{{ url_for('main_routes.aktualisieren', book_id=book_id) }}" method="post">
+                    <input type="number" name="menge" value="{{ book_data['quantity'] }}" required>
+                    <button type="submit">Aktualisieren</button>
+                </form>
+            </td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
+<p>Gesamtpreis: {{ total_price }}</p>
 
 <a href="{{ url_for('main_routes.home') }}">Back to home page</a>
 {% endblock %}
+
