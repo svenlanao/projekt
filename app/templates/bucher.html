@@ -4,6 +4,25 @@
 
 {% block body %}
 <h1>Bucher</h1>
+<form action="{{ url_for('main_routes.bucher') }}" method="GET">
+    <label for="order">Nach Preis sortieren</label>
+    <select name="order" id="order">
+        <option value="">Standard</option>
+        <option value="asc">Aufsteigend</option>
+        <option value="desc">Absteigend</option>
+    </select>
+
+    <label for="subgenre">Nach Subgenre filtern</label>
+    <select name="subgenre" id="subgenre">
+        <option value="">Alle</option>
+        {% set subgenres = bucher|map(attribute='subgenre.subgenre')|list|unique %}
+        {% for subgenre in subgenres %}
+        <option value="{{ subgenre }}">{{ subgenre }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Filtern</button>
+</form>
+
 <table>
     <thead>
         <tr>
