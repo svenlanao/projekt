@@ -1,0 +1,260 @@
+{
+    "title": "Bücher-Informationsabfrage-API",
+    "version": "1.0",
+    "description": "API zum Zugriff auf detaillierte Buchinformationen über eine Datenbank",
+    "basePath": "/",
+    "routes": [
+      {
+        "path": "/",
+        "methods": [
+          {
+            "type": "GET",
+            "description": "Gibt die Startseite zurück."
+          }
+        ]
+      },
+      {
+        "path": "/autoren",
+        "methods": [
+          {
+            "type": "GET",
+            "description": "Gibt eine Liste von Autoren zurück. Kann nach Nationalität gefiltert werden.",
+            "parameters": [
+              {
+                "name": "nationalitat",
+                "in": "query",
+                "description": "Nationalität des Autors",
+                "required": false,
+                "type": "string"
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Liste der Autoren",
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Autor"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "path": "/bucher",
+        "methods": [
+          {
+            "type": "GET",
+            "description": "Gibt eine Liste von Büchern zurück. Kann nach Subgenre gefiltert und nach Preis sortiert werden.",
+            "parameters": [
+              {
+                "name": "subgenre",
+                "in": "query",
+                "description": "Subgenre des Buches",
+                "required": false,
+                "type": "string"
+              },
+              {
+                "name": "order",
+                "in": "query",
+                "description": "Preisreihenfolge (aufsteigend oder absteigend)",
+                "required": false,
+                "type": "string"
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Buchliste",
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Buch"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      {
+        "path": "/zur_rechner_addieren/{book_id}",
+        "methods": [
+          {
+            "type": "POST",
+            "description": "Füge ein Buch zum 'Rechner' hinzu.",
+            "parameters": [
+              {
+                "name": "book_id",
+                "in": "path",
+                "description": "Buch-ID zum Hinzufügen",
+                "required": true,
+                "type": "integer"
+              },
+              {
+                "name": "menge",
+                "in": "formData",
+                "description": "Menge des hinzuzufügenden Buches",
+                "required": true,
+                "type": "integer"
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Buch erfolgreich hinzugefügt"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "path": "/aus_dem_rechner_entfernen/{book_id}",
+        "methods": [
+          {
+            "type": "POST",
+            "description": "Entferne ein Buch aus dem 'Rechner.",
+            "parameters": [
+              {
+                "name": "book_id",
+                "in": "path",
+                "description": "Buch-ID zum Löschen",
+                "required": true,
+                "type": "integer"
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Buch erfolgreich gelöscht"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "path": "/menge_aktualisieren/{book_id}",
+        "methods": [
+          {
+            "type": "POST",
+            "description": "Aktualisiere die Menge eines Buches im 'Rechner'.",
+            "parameters": [
+              {
+                "name": "book_id",
+                "in": "path",
+                "description": "Buch-ID zum Aktualisieren",
+                "required": true,
+                "type": "integer"
+              },
+              {
+                "name": "menge",
+                "in": "formData",
+                "description": "Neue Menge des Buches",
+                "required": true,
+                "type": "integer"
+              }
+            ],
+            "responses": {
+              "200": {
+                "description": "Menge erfolgreich aktualisiert"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "path": "/genres",
+        "methods": [
+          {
+            "type": "GET",
+            "description": "Gibt eine Liste von Genres und Subgenres zurück.",
+            "responses": {
+              "200": {
+                "description": "Genreliste",
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Genre"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "definitions": {
+      "Autor": {
+        "type": "object",
+        "properties": {
+          "autor_id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "nationalitat": {
+            "type": "string"
+          }
+        }
+      },
+      "Buch": {
+        "type": "object",
+        "properties": {
+          "buch_id": {
+            "type": "integer"
+          },
+          "titel": {
+            "type": "string"
+          },
+          "isbn": {
+            "type": "string"
+          },
+          "subgenre": {
+            "$ref": "#/definitions/Subgenre"
+          },
+          "verlag": {
+            "type": "string"
+          },
+          "veroffentlichungsdatum": {
+            "type": "string",
+            "format": "date"
+          },
+          "preis": {
+            "type": "number",
+            "format": "float"
+          }
+        }
+      },
+      "Genre": {
+        "type": "object",
+        "properties": {
+          "genre_id": {
+            "type": "integer"
+          },
+          "genre": {
+            "type": "string"
+          },
+          "subgenres": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Subgenre"
+            }
+          }
+        }
+      },
+      "Subgenre": {
+        "type": "object",
+        "properties": {
+          "subgenre_id": {
+            "type": "integer"
+          },
+          "subgenre": {
+            "type": "string"
+          },
+          "parent_genre": {
+            "$ref": "#/definitions/Genre"
+          }
+        }
+      }
+    }
+  }
