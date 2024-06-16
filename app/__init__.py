@@ -2,7 +2,7 @@ from flask import Flask
 from .models import db
 from .routes import main_routes
 
-def create_app():
+def create_app(config_name='default'):
     app = Flask(__name__)
     app.config['SECRET_KEY'] = '500bb0f9-92b3-4523-a866-903255ca03ec'
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:alfombra@localhost/projekt'
